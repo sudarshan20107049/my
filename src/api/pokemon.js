@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { CancelToken } from 'axios';
 import { useQuery } from 'react-query';
 
 const getPokemons = async () => {
@@ -10,15 +10,22 @@ export const useGetPokemons = () => {
   return useQuery('pokemons', getPokemons);
 };
 
-const getPokemon = async pokemeon => {
-  const { data } = await axios.get(
-    `https://pokeapi.co/api/v2/pokemon/${pokemeon}`
-  );
-  return data;
+const getPokemon = pokemeon => {
+  const source = CancelToken.source();
+  const promise = new Promise(res => setTimeout(res, 1500))
+    .then(() => {
+      return axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemeon}`, {
+        cancelToken: source.token
+      });
+    })
+    .then(res => res.data);
+  promise.cancel = () => {
+    source.cancel('Query was cancelled');
+  };
+  return promise;
 };
 
 export const useGetPokemon = pokemeon => {
-  return useQuery(['pokemons', pokemeon], () => getPokemon(pokemeon), {
-    cacheTime: 3000
-  });
+  console.log(pokemeon);
+  return useQuery(['pokemons', pokemeon], () => getPokemon(pokemeon));
 };

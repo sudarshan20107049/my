@@ -6,7 +6,7 @@ function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <nav className="bg-gray-800 h-[580px]   ">
+      <nav className="bg-gray-800 h-screen   ">
         <div className="ml-24">
           <img
             className="h-10 w-10"
@@ -39,7 +39,7 @@ function Nav() {
                     Pokemon
                   </Link>
                   <Link
-                    href="#"
+                    href={'/usecase'}
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Reports
@@ -120,19 +120,19 @@ function Nav() {
                   Users
                 </Link>
 
-                <a
-                  href="#"
+                <Link
+                  href={'/pokemon'}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Pokemon
-                </a>
+                </Link>
 
-                <a
-                  href="#"
+                <Link
+                  href={'/usecase'}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Reports
-                </a>
+                </Link>
               </div>
             </div>
           )}

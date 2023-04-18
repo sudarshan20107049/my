@@ -1,9 +1,9 @@
 'use client';
 import { useGetUser } from '@/api/users';
+import { format } from 'date-fns';
 const Page = ({ params }) => {
   const [id] = params.id;
   const { data, isLoading } = useGetUser(id);
-  console.log(data);
   if (isLoading) {
     return (
       <h1 className="animate-pulse text-center mt-72 text-3xl ">
@@ -60,3 +60,4 @@ const Page = ({ params }) => {
   );
 };
 export default Page;
+

@@ -1,5 +1,6 @@
 'use client';
 import { useGetPokemon, useGetPokemons } from '@/api/pokemon';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const Page = () => {
@@ -21,16 +22,36 @@ const Page = () => {
     <div className="mt-5 ml-5 ">
       <h1 className="text-5xl font-semibold text-orange-500 ">Pokeman</h1>
       <div className="flex flex-row">
-        <div className="w-[500px] mt-2 rounded-md bg-slate-100">
-          <div className="pl-10">
-            {data?.map((item, index) => {
-              return (
-                <h3 key={index} className="pt-5">
-                  {item.name[0].toUpperCase() + item.name.slice(1)}
-                </h3>
-              );
-            })}
-          </div>
+        <div className="w-[800px] mt-2 rounded-md bg-slate-100">
+          <table className=" min-w-full divide-y divide-black">
+            <thead className="h-14">
+              <tr>
+                <th>S.No</th>
+                <th>PokemanName</th>
+                <th>Url</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y bg-white divide-slate-400">
+              {data?.map((item, index) => (
+                <tr key={index}>
+                  <td className="pl-16">{index + 1}</td>
+                  <td className="pl-32 pt-5">
+                    {item.name[0].toUpperCase() + item.name.slice(1)}
+                  </td>
+                  <td className="text-blue-600  hover:text-blue-400">
+                    <Link
+                      target="_blank"
+                      className="visited:text-red-500"
+                      href={item.url}
+                    >
+                      {item.url}
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="pl-10"></div>
         </div>
         <div className="w-[500px] mt-2 rounded-sm bg-slate-50">
           <input
@@ -47,8 +68,7 @@ const Page = () => {
 };
 
 const Pokemon = ({ pokemeon }) => {
-  const { data, isLoading } = useGetPokemon(pokemeon);
-  console.log(data);
+  const { data, isLoading, isError } = useGetPokemon(pokemeon);
   return (
     <div>
       {isLoading ? (
@@ -58,6 +78,7 @@ const Pokemon = ({ pokemeon }) => {
       ) : (
         ''
       )}
+      {isError ? 'Somenthing Went Wrong!' : ''}
       {data?.sprites?.front_default ? (
         <img src={data?.sprites?.front_default} alt="Pokemon" />
       ) : (
